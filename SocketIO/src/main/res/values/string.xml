@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SocketIO</string>
+
+    <!-- TODO: Connection -->
+    <string name="server_cons">Server: </string>
+    <string name="client_cons">Client: </string>
+    <string name="server_start">Server Started</string>
+    <string name="server_closed">Server Closed</string>
+    <string name="server_on">Unable to start client while server is running</string>
+    <string name="client_on">Unable to start server while client is running</string>
+    <string name="server_is_running">Server is running</string>
+    <string name="client_is_connected">Client is Connected</string>
+    <string name="low_port">Ports lower then %s are not allowed</string>
+</resources>
