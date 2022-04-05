@@ -46,6 +46,14 @@ public class TCPCommunicator {
         }
     }
 
+    public void setOnCallBackListener(TCPCommunicatorListener listener) {
+        this.listener = listener;
+    }
+
+    public void setOnUdpListener(UDPBroadcastListener udpListener) {
+        this.udpListener = udpListener;
+    }
+
     public ServiceReceiver getReceiver() {
         return mReceiver;
     }
