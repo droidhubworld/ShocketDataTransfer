@@ -164,7 +164,7 @@ public class TCPCommunicatorService extends Service {
                         @Override
                         public void run() {
                             if (clientIndex != -1) {
-                                mTcpServer.sendln(clientIndex,obj.toString());
+                                mTcpServer.sendln(clientIndex, obj.toString());
                             } else {
                                 mTcpServer.broadcastln(obj.toString());
                             }
@@ -616,13 +616,16 @@ public class TCPCommunicatorService extends Service {
                     //Keep a socket open to listen to all the UDP trafic that is destined for this port
                     DatagramSocket socket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
                     socket.setBroadcast(true);
-                    /*Intent broadcastIntent = new Intent();
-                    broadcastIntent.setAction(TcpConstant.LOCAL_ACTION_ERROR);
-                    broadcastIntent.putExtra(TcpConstant.PORT_READY_TO_USE, true);
-                    broadcastIntent.putExtra(TcpConstant.LOCAL_ERROR, "Ready to receive broadcast packets!");
-                    sendBroadcast(broadcastIntent);
-                    pref.setBoolean(SharedPref.SHOW_PORT_ERROR, false);*/
 
+                    ConnectionData _data = new ConnectionData();
+                    if ((mTcpServer != null && !mTcpServer.isServerRunning())) {
+                        _data.setServer(true);
+                    } else {
+                        _data.setServer(false);
+                    }
+                    _data.setType(TCPConstants.READY_TO_RECEIVED_BROADCAST);
+                    _data.setMessage("Ready to receive broadcast packets!");
+                    sendToReceiver(_data);
                     while (true) {
                         Log.e(TAG, "Ready to receive broadcast packets!");
                         //Receive a packet
@@ -642,6 +645,15 @@ public class TCPCommunicatorService extends Service {
                     }
                 } catch (IOException ex) {
                     Log.e(TAG, "Oops ???? " + ex.getMessage());
+                    ConnectionData _data = new ConnectionData();
+                    if ((mTcpServer != null && !mTcpServer.isServerRunning())) {
+                        _data.setServer(true);
+                    } else {
+                        _data.setServer(false);
+                    }
+                    _data.setType(TCPConstants.ERROR_ON_RECEIVED_BROADCAST);
+                    _data.setMessage("Oops port is already in use");
+                    sendToReceiver(_data);
                 }
             }
         }).start();

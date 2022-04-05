@@ -8,6 +8,6 @@
         <service
             android:name=".TCPCommunicatorService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 </manifest>

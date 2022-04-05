@@ -18,6 +18,8 @@ public class TCPConstants {
     public static final int EXCEPTION = 404;
     public static final int AUTO_CONNECTING = 405;
     public static final int LOCAL_ERROR_ACTION = 406;
+    public static final int READY_TO_RECEIVED_BROADCAST = 101;
+    public static final int ERROR_ON_RECEIVED_BROADCAST = 102;
 
     public static final String LOCAL_DATA = "com.droidhubworld.socketio.DATA";
 

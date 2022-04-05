@@ -33,7 +33,7 @@ public class TCPCommunicator {
     private UDPBroadcastListener udpListener;
     public boolean mBoundTcp = false;
 
-    public TCPCommunicator(Context mContext, String autoConnectIpAddress, int port, int autoConnect, TCPCommunicatorListener listener, UDPBroadcastListener udpListener) {
+    public TCPCommunicator(Context mContext, String autoConnectIpAddress, int port, int autoConnect, boolean autoStartService, TCPCommunicatorListener listener, UDPBroadcastListener udpListener) {
         this.mContext = mContext;
         this.autoConnectIpAddress = autoConnectIpAddress;
         this.port = port;
@@ -41,7 +41,9 @@ public class TCPCommunicator {
         this.listener = listener;
         this.udpListener = udpListener;
         mReceiver = new ServiceReceiver();
-        startService();
+        if (autoStartService) {
+            startService();
+        }
     }
 
     public ServiceReceiver getReceiver() {
@@ -57,6 +59,7 @@ public class TCPCommunicator {
         private String autoConnectIpAddress;
         private int port;
         private int autoConnect;
+        private boolean autoStartService;
         private TCPCommunicatorListener listener;
         private UDPBroadcastListener udpListener;
 
@@ -75,6 +78,11 @@ public class TCPCommunicator {
             return this;
         }
 
+        public Builder setAutoStartService(boolean autoStartService) {
+            this.autoStartService = autoStartService;
+            return this;
+        }
+
         public Builder setOnCallBackListener(@NonNull TCPCommunicatorListener listener) {
             this.listener = listener;
             return this;
@@ -86,7 +94,7 @@ public class TCPCommunicator {
         }
 
         public TCPCommunicator build() {
-            return new TCPCommunicator(this.mContext, this.autoConnectIpAddress, this.port, this.autoConnect, this.listener, this.udpListener);
+            return new TCPCommunicator(this.mContext, this.autoConnectIpAddress, this.port, this.autoConnect, this.autoStartService, this.listener, this.udpListener);
         }
     }
 

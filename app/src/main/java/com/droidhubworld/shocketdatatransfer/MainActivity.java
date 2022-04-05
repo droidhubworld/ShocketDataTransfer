@@ -56,8 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tcpCommunicator = new TCPCommunicator.Builder(this, PORT)
                 .setAutoConnectIpAddress("192.168.43.108")// if not set it will check over network and trying to connect is server is started on any IP
                 .setAutoConnect(TCPConstants.CLIENT)// CLIENT for auto connect and SERVER for auto start server
+                .setAutoStartService(false)
                 .setOnCallBackListener(this)
                 .build();
+
+        tcpCommunicator.startService();
 
         inetAddress = tcpCommunicator.systemAddress();
         if (inetAddress != null) {
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    tcpCommunicator.sendMessage( jsonObject);
+                    tcpCommunicator.sendMessage(jsonObject);
                 }
                 break;
             case R.id.btnStartService:
@@ -150,6 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     connectionProgress.setVisibility(View.GONE);
 
                     break;
+                case TCPConstants.READY_TO_RECEIVED_BROADCAST:
+                    Logger.e(TAG, "READY_TO_RECEIVED_BROADCAST");
+                    break;
+                case TCPConstants.ERROR_ON_RECEIVED_BROADCAST:
+                    Logger.e(TAG, "ERROR_ON_RECEIVED_BROADCAST");
+                    break;
             }
             connectedClients.setText("Connected Clients : " + data.getConnectedClient());
             connectionMessage.append("\n" + data.getMessage());
@@ -167,6 +176,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case TCPConstants.AUTO_CONNECTING:
                     connectionProgress.setVisibility(View.VISIBLE);
+                    break;
+                case TCPConstants.READY_TO_RECEIVED_BROADCAST:
+                    Logger.e(TAG, "READY_TO_RECEIVED_BROADCAST");
+                    break;
+                case TCPConstants.ERROR_ON_RECEIVED_BROADCAST:
+                    Logger.e(TAG, "ERROR_ON_RECEIVED_BROADCAST");
                     break;
             }
             connectedClients.setText(data.getConnectedTo());
